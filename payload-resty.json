@@ -1,0 +1,21 @@
+{
+  "fakechroot": {
+    "rewrite": {
+      "/usr/local/openresty/nginx/conf/.+\\.conf$": {
+        "^\\s+listen\\s.*$": "listen unix:/usr/local/run/nginx.sock;"
+      }
+    },
+    "symlink": [ "/dev" ]
+  },
+  # mkdir in fakeroot (if "fakechroot" directive exists)
+  "mkdir": ["/usr/local/openresty/nginx/logs", "/usr/local/run"],
+  "exec": "/usr/local/openresty/nginx/sbin/nginx",
+  "connection": "unix:/usr/local/run/nginx.sock",
+  "logging": {
+    "error": "/usr/local/openresty/nginx/logs/error.log",
+    "info": "/usr/local/openresty/nginx/logs/access.log"
+  },
+  "header": {
+    "Host": "www.example.org"
+  }
+}
